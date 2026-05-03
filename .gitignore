@@ -43,3 +43,14 @@ logs/
 # Temporary
 tmp/
 temp/
+=40.8.0
+
+# Experiment results (keep scripts, ignore large result files)
+experiments/results/real/benchmark_samples_*.json
+experiments/results/real/benchmark_summary_*.json
+experiments/data/longbench_data.zip
+
+# Docs site build
+docs_site/_build/
+docs_site/_static/
+docs_site/_templates/
