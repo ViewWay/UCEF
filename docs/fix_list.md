@@ -288,5 +288,84 @@
 
 ---
 
+## Phase 3 实现修复（2026-05-03）
+
+### FIX-022: config.py — pydantic 硬依赖导致整个包不可导入
+
+- **严重度**: CRITICAL（整个包不可用）
+- **文件**: `src/ucef/core/config.py`
+- **问题**: `from pydantic import ...` 是硬导入。无 pydantic 时 9 个模块 ImportError。
+- **修复**: 实现 pydantic/dataclass 双后端。所有 9 个配置类两个分支字段完全一致。dataclass 版保留关键验证（curvature < 0、budget ≈ 1.0）。
+
+### FIX-023: system.py — 压缩引擎初始化从注释改为真实实现
+
+- **严重度**: HIGH（功能缺失）
+- **文件**: `src/ucef/core/system.py:initialize()` + `_compress_to_budget()`
+- **问题**: `self._compression_engine = AdaptiveCompressor(...)` 被注释，`_compress_to_budget()` 使用简单截断。
+- **修复**: 取消注释并接入真实 AdaptiveCompressor。`_compress_to_budget()` 优先使用压缩引擎，保留 truncation fallback。
+
+---
+
+## Phase 3 Review 修复（2026-05-03）
+
+### FIX-024: system.py — query 未传递给压缩引擎
+
+- **严重度**: HIGH（压缩质量受损）
+- **文件**: `src/ucef/core/system.py:256, 450`
+- **问题**: `_compress_to_budget(blocks, budget)` 不接受 query 参数，内部 `query=""` 硬编码。压缩器无法根据用户查询进行 query-aware 压缩，降低了相关性保持率。
+- **修复**: `_compress_to_budget` 添加 `query: str = ""` 参数；`query()` 方法调用处改为 `_compress_to_budget(selected, budget, query=query)`。
+
+### FIX-025: adaptive.py — MDL 压缩器无异常保护
+
+- **严重度**: MEDIUM（健壮性）
+- **文件**: `src/ucef/compression/adaptive.py:118-119`
+- **问题**: `_compress_aggressive()` 直接调用 `self._mdl.compress_blocks()` 无 try-except。如果 MDL 计算遇到异常（空文本、数值下溢等），整个压缩管线崩溃。
+- **修复**: 添加 try-except 包裹，异常时 fallback 到 `_truncate_by_relevance()`。
+
+---
+
+## Phase 4 实现修复（2026-05-03）
+
+### FIX-026: system.py — 反馈循环无限递归风险
+
+- **严重度**: CRITICAL（运行时无限递归）
+- **文件**: `src/ucef/core/system.py:query()`
+- **问题**: `query()` 方法在质量低于阈值时调用 `self._feedback_loop.refine(requery_fn=self.query)`，而 `refine()` 内部调用 `requery_fn(query)` 即 `self.query()`，后者又会检查质量并再次触发反馈循环，导致无限递归。
+- **修复**: 添加 `self._in_feedback_loop` 布尔标志。`query()` 在触发反馈循环前设为 `True`，反馈循环内部递归调用 `query()` 时跳过反馈逻辑，`finally` 块确保标志重置。
+
+### FIX-027: preservation.py — QualityIssue 重复定义与 types.py 冲突
+
+- **严重度**: HIGH（类型冲突）
+- **文件**: `src/ucef/quality/preservation.py`
+- **问题**: `preservation.py` 本地定义了 `QualityIssue` dataclass（`type: str`），而 `types.py` 也定义了 `QualityIssue`（`issue_type: QualityIssueType` 枚举）。两个字段名不同、类型不兼容。
+- **修复**: 删除 `preservation.py` 的本地 `QualityIssue` 定义，改为从 `ucef.core.types` 导入。所有引用从 `issue.type` 改为 `issue.issue_type`，字符串键改为枚举值。
+
+### FIX-028: config.py — QualityConfig 缺少 monitor_window_size 和 max_refinement_iterations
+
+- **严重度**: MEDIUM（配置缺失）
+- **文件**: `src/ucef/core/config.py` QualityConfig
+- **问题**: `system.py` 引用 `self._config.quality.monitor_window_size` 和 `self._config.quality.max_refinement_iterations`，但 `QualityConfig` 未定义这两个字段，导致 `AttributeError`。
+- **修复**: 在 `QualityConfig` 的 pydantic 和 dataclass 两个分支中添加 `monitor_window_size: int = 100` 和 `max_refinement_iterations: int = 3`。
+
+---
+
+## Phase 5 Review 修复（2026-05-03）
+
+### FIX-029: openai.py — token 使用统计被丢弃
+
+- **严重度**: MEDIUM（统计不准确）
+- **文件**: `src/ucef/models/openai.py:123-127`
+- **问题**: `_generate_impl()` 中 `response.usage` 的 token 统计数据被 `self._stats[-1:] = []` 清空后未重新填充，导致 OpenAI 适配器的 token 计数始终为 0。
+- **修复**: 改为将 `response.usage.prompt_tokens`、`completion_tokens`、`total_tokens` 正确写入 `self._stats[-1]`。
+
+### FIX-030: zhipu.py — 使用已弃用的 asyncio.get_event_loop()
+
+- **严重度**: MEDIUM（兼容性）
+- **文件**: `src/ucef/models/zhipu.py:116-117`
+- **问题**: 使用 `asyncio.get_event_loop()` 在 Python 3.10+ 中已弃用，且在 async 上下文中可能返回错误的事件循环。zhipuai SDK 是同步的，需要通过 `run_in_executor` 包装。
+- **修复**: 改为 `asyncio.get_running_loop().run_in_executor(None, _sync_call)`，确保使用当前运行的事件循环。
+
+---
+
 **最后更新**: 2026-05-03
 **维护者**: UCEF 项目自动记录

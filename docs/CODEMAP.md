@@ -1,261 +1,199 @@
 # UCEF CodeMap
 
-## Overview
-UCEF (Universal Context Extension Framework) - Model-agnostic infinite context with quality preservation.
+**Version**: 0.3.0 | **Last Updated**: 2026-05-03
+
+---
 
 ## Directory Structure
 
 ```
 extend-Context-System/
-├── src/ucef/                      # Main package
-│   ├── core/                      # Core system
-│   │   ├── __init__.py
-│   │   ├── system.py              # Main UCEF system (TODO)
-│   │   └── config.py              # Configuration (TODO)
-│   ├── memory/                    # Memory systems
-│   │   ├── __init__.py
-│   │   ├── hot.py                 # Redis hot memory (TODO)
-│   │   ├── warm.py               # ChromaDB warm memory (TODO)
-│   │   ├── cold.py               # File system cold memory (TODO)
-│   │   └── three_layer.py        # 3-layer architecture (TODO)
-│   ├── retrieval/                 # Retrieval methods
-│   │   ├── __init__.py
-│   │   ├── hyperbolic.py         # Hyperbolic retrieval (TODO)
-│   │   ├── quantum.py            # Quantum selection (TODO)
-│   │   └── adaptive.py           # Adaptive strategies ✓
-│   ├── models/                    # Model adapters
-│   │   ├── __init__.py
-│   │   ├── base.py               # Base adapter (TODO)
-│   │   ├── openai.py             # OpenAI adapter (TODO)
-│   │   ├── anthropic.py          # Anthropic adapter (TODO)
-│   │   ├── zhipu.py              # Zhipu GLM adapter (TODO)
-│   │   └── local.py              # Local model adapter (TODO)
-│   ├── quality/                   # Quality preservation
-│   │   ├── __init__.py
-│   │   ├── profiler.py           # Model profiler ✓
-│   │   ├── preservation.py       # Quality engine ✓
-│   │   └── monitor.py            # Quality monitor (TODO)
-│   ├── adapters/                  # Additional adapters (empty)
-│   └── utils.py                   # Utilities (TODO)
-├── tests/                         # Tests
-│   ├── unit/                      # Unit tests
-│   └── integration/               # Integration tests
-├── paper/                         # Research paper
-│   ├── draft/                     # Paper drafts
-│   ├── figures/                   # Figures
-│   └── appendix/                  # Supplementary
-├── experiments/                   # Experiments
-│   ├── benchmarks/                # Benchmark datasets
-│   ├── baselines/                 # Baseline implementations
-│   └── results/                   # Experiment results
-├── docs/                          # Documentation
-│   ├── api/                       # API reference
-│   ├── tutorials/                 # Tutorials
-│   └── theory/                    # Theoretical background
-├── scripts/                       # Utility scripts
-│   ├── setup/                     # Setup scripts
-│   ├── eval/                      # Evaluation scripts
-│   └── plot/                      # Plotting scripts
-├── examples/                      # Usage examples
-│   └── basic_usage.py             # Basic examples ✓
-└── data/                          # Data storage
-    ├── cache/                     # Cached data
-    └── models/                    # Downloaded models
+├── src/ucef/                          # Main package
+│   ├── __init__.py                    # 22 exported symbols ✓
+│   ├── core/                          # Core system
+│   │   ├── __init__.py                ✓
+│   │   ├── system.py                  # UniversalContextSystem ✓
+│   │   ├── config.py                  # 9 Pydantic v2 config classes ✓
+│   │   └── types.py                   # 17 classes + 32 functions ✓
+│   ├── memory/                        # Three-layer memory
+│   │   ├── __init__.py                ✓
+│   │   ├── hot.py                     # Redis / OrderedDict hot layer ✓
+│   │   ├── warm.py                    # ChromaDB / numpy warm layer ✓
+│   │   ├── cold.py                    # HDF5 / JSON cold layer ✓
+│   │   └── three_layer.py             # Memory orchestrator ✓
+│   ├── retrieval/                     # Retrieval methods
+│   │   ├── __init__.py                ✓
+│   │   ├── hyperbolic.py              # Poincaré ball KNN ✓
+│   │   ├── quantum.py                 # Density matrix selection ✓
+│   │   ├── fusion.py                  # RRF + weighted fusion ✓
+│   │   └── adaptive.py                # Adaptive extension ✓
+│   ├── compression/                   # Context compression
+│   │   ├── __init__.py                ✓
+│   │   ├── adaptive.py                # Strategy router ✓
+│   │   ├── mdl.py                     # MDL principle ✓
+│   │   ├── entropy.py                 # Max entropy ✓
+│   │   └── task_aware.py              # Query-directed ✓
+│   ├── physics/                       # Physics-inspired models
+│   │   ├── __init__.py                ✓
+│   │   ├── thermodynamic.py           # Free energy F=E−TS ✓
+│   │   └── quantum_field.py           # Renormalization group ✓
+│   ├── quality/                       # Quality preservation
+│   │   ├── __init__.py                ✓
+│   │   ├── profiler.py                # 12 model profiles ✓
+│   │   ├── monitor.py                 # 4-dimension tracking ✓
+│   │   ├── feedback.py                # Closed-loop feedback ✓
+│   │   └── preservation.py            # Quality engine ✓
+│   └── models/                        # Model adapters (lazy loading)
+│       ├── __init__.py                ✓
+│       ├── base.py                    # Base + AdapterConfig ✓
+│       ├── openai.py                  # OpenAI Chat Completions ✓
+│       ├── anthropic.py               # Anthropic Messages ✓
+│       ├── zhipu.py                   # GLM-4, ChatGLM ✓
+│       └── local.py                   # llama.cpp / vLLM / Ollama ✓
+│
+├── tests/                             # Test suite
+│   ├── __init__.py                    ✓
+│   ├── run_tests.py                   # Test runner ✓
+│   ├── test_config.py                 ✓
+│   ├── test_types.py                  ✓
+│   ├── test_memory.py                 ✓
+│   ├── test_retrieval.py              ✓
+│   ├── test_compression.py            ✓
+│   ├── test_physics.py                ✓
+│   ├── test_quality_models.py         ✓
+│   └── test_system_e2e.py             ✓
+│
+├── experiments/                       # Experiment infrastructure
+│   ├── simulated_experiment.py        # 6 simulated experiments ✓
+│   ├── real_experiment.py             # Real benchmark runner ✓
+│   ├── experiment-report.tex          # TeX experiment report ✓
+│   ├── run_all.sh                     # Run all experiments ✓
+│   ├── data/                          # Benchmark datasets (synthetic)
+│   │   ├── longbench.json             ✓
+│   │   ├── narrativeqa.json           ✓
+│   │   └── govreport.json             ✓
+│   └── results/                       # Experiment outputs
+│       ├── simulated_results.json     ✓
+│       └── real/                      # Real experiment results
+│
+├── paper/                             # Research papers
+│   ├── ieee/                          # IEEE format
+│   │   ├── ucef-en.tex / ucef-en.pdf  ✓
+│   │   └── ucef-cn.tex / ucef-cn.pdf  ✓
+│   ├── chinese-journal/               # Chinese journal format
+│   │   ├── ucef-en.tex / ucef-en.pdf  ✓
+│   │   └── ucef-cn.tex / ucef-cn.pdf  ✓
+│   └── appendix/                      # Archived drafts
+│
+├── docs/                              # Documentation
+│   ├── PROJECT_SUMMARY.md             ✓
+│   ├── CODEMAP.md                     ✓
+│   ├── QUICKSTART.md                  ✓
+│   ├── RESEARCH_SURVEY.md             ✓
+│   └── UPDATE_SUMMARY.md              ✓
+│
+├── data/cold/                         # Cold memory test data
+├── setup.py                           # Package setup (v0.1.0 → needs update)
+├── requirements.txt                   # Dependencies
+├── pyrightconfig.json                 # Type checker config
+└── README.md                          # Project README
 ```
-
-## Key Components
-
-### ✓ Implemented
-- **Project structure** - Complete directory layout
-- **Quality profiler** - Model capability analysis
-- **Quality preservation** - Output quality engine
-- **Adaptive strategies** - Context extension strategies
-- **Documentation** - Comprehensive docs and examples
-
-### ⏳ TODO
-- Core system integration
-- Memory system implementation
-- Retrieval methods (hyperbolic, quantum)
-- Model adapters (OpenAI, Anthropic, etc.)
-- Testing framework
-- Experiment scripts
-
-## Module Dependencies
-
-### Quality System
-```
-profiler.py (standalone)
-  ↓
-preservation.py (standalone)
-  ↓
-adaptive.py (uses both)
-```
-
-### Planned Integration
-```
-system.py
-  ├── profiler.py
-  ├── adaptive.py
-  ├── memory/
-  ├── retrieval/
-  └── models/
-```
-
-## API Surface
-
-### Public API
-```python
-from ucef import (
-    UniversalContextSystem,
-    ModelCapabilityProfiler,
-    AdaptiveContextExtender
-)
-```
-
-### Internal API
-```python
-from ucef.quality import ModelCapabilityProfiler, QualityPreservationEngine
-from ucef.retrieval import AdaptiveContextExtender
-from ucef.memory import ThreeLayerMemory
-from ucef.models import BaseModelAdapter, OpenAIAdapter, etc.
-```
-
-## Data Flow
-
-### Input
-```python
-model_client = load_model("llama-7b")
-documents = load_documents()  # 1M+ tokens
-query = "user query"
-```
-
-### Processing
-```python
-profile = profiler.profile(model_client, "llama-7b")
-context = extender.extend(profile, documents, query)
-response = quality_engine.ensure(model_client, query, context)
-```
-
-### Output
-```python
-high_quality_response  # Comparable to GPT-4o
-```
-
-## Entry Points
-
-### Main Entry
-- `src/ucef/__init__.py` - Package initialization
-
-### Quality Entry
-- `src/ucef/quality/profiler.py` - Model profiling
-- `src/ucef/quality/preservation.py` - Quality preservation
-
-### Retrieval Entry
-- `src/ucef/retrieval/adaptive.py` - Adaptive extension
-
-## Configuration
-
-### Model Specifications
-Located in `profiler.py`:
-- `MODEL_SPECS` dict
-- 15+ pre-configured models
-- Categories: small/medium/large
-
-### Quality Thresholds
-Located in `preservation.py`:
-- Default: 0.75
-- Configurable per model
-
-### Strategy Selection
-Located in `adaptive.py`:
-- Automatic based on profile
-- 3 strategies implemented
-
-## Testing Strategy
-
-### Unit Tests
-- Each module independently
-- Mock external dependencies
-- Fast execution
-
-### Integration Tests
-- End-to-end workflows
-- Real model clients
-- Performance benchmarks
-
-## Documentation
-
-### API Docs
-- `docs/api/quality-system.md` - Quality system API
-- `docs/api/architecture.md` - Architecture
-
-### User Docs
-- `docs/QUICKSTART.md` - Quick start
-- `examples/basic_usage.py` - Usage examples
-
-### Developer Docs
-- `docs/PROJECT_SUMMARY.md` - Project overview
-- `docs/research-plan.md` - Research plan
-
-## Dependencies
-
-### Core Dependencies
-- numpy, scipy, torch
-- chromadb
-- redis
-- openai, anthropic, zhipuai
-
-### Development Dependencies
-- pytest, pytest-cov
-- black, flake8, mypy
-
-## Performance Targets
-
-### Profiling
-- Cached: <1ms
-- Uncached: ~100ms
-
-### Extension
-- Small strategy: ~200ms
-- Medium strategy: ~150ms
-- Large strategy: ~100ms
-
-### Quality Check
-- Evaluation: ~50ms
-- Refinement: +200ms (if needed)
-
-## Quality Metrics
-
-### 4 Dimensions
-1. Relevance (30%)
-2. Completeness (30%)
-3. Coherence (20%)
-4. Accuracy (20%)
-
-### Threshold
-- Default: 0.75
-- Adjustable per model
-
-## Model Support
-
-### Currently Supported (15+)
-Small: Llama-7B, Qwen-7B, Mistral-7B
-Medium: Llama-13B, Qwen-14B, Yi-34B
-Large: Llama-70B, Qwen2.5-72B, GLM-5.1, GPT-4o, Claude 3.5
-
-### Extensibility
-- Easy to add new models
-- Update MODEL_SPECS dict
-- Or provide custom profile
-
-## File Status Legend
-- ✓ Implemented
-- ⏳ TODO
-- 🔄 In progress
-- ❌ Deprecated
 
 ---
 
-**Last Updated**: 2026-05-02
-**Version**: 0.1.0
-**Status**: Framework Complete, Implementation In Progress
+## Module Dependencies
+
+```
+ucef/__init__.py
+  ├── core/system.py ← core/config.py ← core/types.py
+  ├── memory/three_layer.py ← hot.py + warm.py + cold.py
+  ├── retrieval/adaptive.py ← hyperbolic.py + quantum.py + fusion.py
+  ├── compression/adaptive.py ← mdl.py + entropy.py + task_aware.py
+  ├── physics/thermodynamic.py + quantum_field.py
+  ├── quality/preservation.py ← monitor.py + feedback.py ← profiler.py
+  └── models/base.py → openai.py + anthropic.py + zhipu.py + local.py
+```
+
+---
+
+## Public API Surface
+
+### Primary entry points
+
+```python
+from ucef import (
+    UniversalContextSystem,   # Main orchestrator
+    UCEFConfig,               # Configuration
+    Document,                 # Input document
+    ContextBlock,             # Context unit
+    QueryResult,              # Query output
+    TokenBudget,              # Token budget
+)
+```
+
+### Subsystem APIs
+
+```python
+# Retrieval
+from ucef.retrieval import HyperbolicRetriever, QuantumSelector, AdaptiveContextExtender
+
+# Compression
+from ucef.compression import AdaptiveCompressor, MDLCompressor, EntropyCompressor, TaskAwareCompressor
+
+# Quality
+from ucef.quality import ModelCapabilityProfiler, QualityMonitor, QualityPreservationEngine
+
+# Memory
+from ucef.memory import ThreeLayerMemory, RedisHotMemory, ChromaWarmMemory, FileSystemColdMemory
+
+# Models
+from ucef.models import BaseModelAdapter, OpenAIAdapter, AnthropicAdapter, ZhipuAdapter, LocalAdapter
+```
+
+---
+
+## Data Flow
+
+```
+1. User creates UniversalContextSystem(model_client, model_name, config)
+2. system.initialize() → loads profiler, memory, compression, quality engine
+3. system.store_documents(docs) →
+     docs → blocks → embed in Poincaré ball → store in 3-layer memory
+4. system.query(query) →
+     profile model → select strategy → retrieve (hyperbolic + quantum)
+     → fuse results → compress to budget → quality check → feedback loop
+     → return QueryResult
+```
+
+---
+
+## Configuration
+
+- **Pydantic v2** with automatic dataclass fallback
+- Key configs: HyperbolicConfig, QuantumConfig, CompressionConfig, QualityConfig, MemoryConfig
+- All external dependencies optional (graceful degradation)
+
+---
+
+## Testing Strategy
+
+| Module | Test File | Coverage |
+|--------|-----------|----------|
+| Core types | test_types.py | Types, embeddings, budgets |
+| Config | test_config.py | Validation, defaults |
+| Memory | test_memory.py | Hot/warm/cold layers |
+| Retrieval | test_retrieval.py | Hyperbolic, quantum, fusion |
+| Compression | test_compression.py | MDL, entropy, task-aware |
+| Physics | test_physics.py | Thermodynamic, RG |
+| Quality | test_quality_models.py | Profiler, monitor, feedback |
+| Integration | test_system_e2e.py | Full pipeline |
+
+---
+
+## Known Limitations
+
+1. **Hyperbolic retrieval** requires Riemannian SGD training for production-quality embeddings (currently uses random init)
+2. **Real benchmarks** require API keys; mock mode produces synthetic results only
+3. **CLI interface** defined in setup.py but not yet implemented
+4. **Streaming support** has TODO markers in model adapters
+5. **setup.py** still reports version 0.1.0 (should be 0.3.0)
