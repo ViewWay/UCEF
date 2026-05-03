@@ -9,7 +9,7 @@ References:
     - Grünwald, "The Minimum Description Length Principle", MIT Press, 2007
 """
 
-__version__ = "0.1.0"
+__version__ = "0.3.0"
 __author__ = "UCEF Team"
 
 from ucef.core.config import UCEFConfig
@@ -26,13 +26,27 @@ from ucef.core.types import (
     TokenBudget,
 )
 from ucef.quality.profiler import ModelCapabilityProfiler
+from ucef.quality.monitor import QualityMonitor
+from ucef.quality.feedback import QualityFeedbackLoop, FeedbackResult
 from ucef.retrieval.adaptive import AdaptiveContextExtender
+from ucef.compression.adaptive import AdaptiveCompressor
+from ucef.physics.thermodynamic import ThermodynamicModel
+from ucef.physics.quantum_field import RenormalizationGroup
+from ucef.models.base import BaseModelAdapter, AdapterConfig
 
 __all__ = [
     "UniversalContextSystem",
     "UCEFConfig",
     "ModelCapabilityProfiler",
+    "QualityMonitor",
+    "QualityFeedbackLoop",
+    "FeedbackResult",
     "AdaptiveContextExtender",
+    "AdaptiveCompressor",
+    "ThermodynamicModel",
+    "RenormalizationGroup",
+    "BaseModelAdapter",
+    "AdapterConfig",
     "CompressionStrategy",
     "ContextBlock",
     "ContextCategory",

@@ -8,15 +8,7 @@ from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 import asyncio
 
-
-@dataclass
-class QualityIssue:
-    """Quality issue identified in response."""
-    
-    type: str  # 'missing_information', 'noisy_context', 'contradictory_info'
-    severity: float  # 0-1
-    description: str
-    suggested_fix: str
+from ucef.core.types import QualityIssue, QualityIssueType
 
 
 class QualityPreservationEngine:
@@ -34,9 +26,9 @@ class QualityPreservationEngine:
         self.quality_threshold = quality_threshold
         self.quality_monitor = None  # Will be imported
         self.fallback_strategies = {
-            'missing_information': self._retrieve_more_context,
-            'noisy_context': self._filter_irrelevant,
-            'contradictory_info': self._resolve_conflicts,
+            QualityIssueType.MISSING_INFORMATION: self._retrieve_more_context,
+            QualityIssueType.NOISY_CONTEXT: self._filter_irrelevant,
+            QualityIssueType.CONTRADICTORY_INFO: self._resolve_conflicts,
         }
     
     async def ensure_quality(
@@ -198,7 +190,7 @@ class QualityPreservationEngine:
         if "I don't have enough information" in response or \
            "insufficient context" in response:
             issues.append(QualityIssue(
-                type='missing_information',
+                issue_type=QualityIssueType.MISSING_INFORMATION,
                 severity=0.8,
                 description="Response indicates insufficient context",
                 suggested_fix="Retrieve more relevant context"
@@ -211,7 +203,7 @@ class QualityPreservationEngine:
         ]
         if any(indicator in response.lower() for indicator in vague_indicators):
             issues.append(QualityIssue(
-                type='noisy_context',
+                issue_type=QualityIssueType.NOISY_CONTEXT,
                 severity=0.6,
                 description="Response is vague, possibly due to noisy context",
                 suggested_fix="Filter irrelevant context and re-retrieve"
@@ -221,7 +213,7 @@ class QualityPreservationEngine:
         if "however" in response.lower() and "but" in response.lower():
             # Might indicate conflicting information
             issues.append(QualityIssue(
-                type='contradictory_info',
+                issue_type=QualityIssueType.CONTRADICTORY_INFO,
                 severity=0.5,
                 description="Potential contradictions in response",
                 suggested_fix="Resolve conflicting context"
@@ -236,7 +228,7 @@ class QualityPreservationEngine:
         current_context: List[Dict]
     ) -> List[Dict]:
         """Apply fix for identified issue."""
-        fix_strategy = self.fallback_strategies.get(issue.type)
+        fix_strategy = self.fallback_strategies.get(issue.issue_type)
         
         if fix_strategy:
             return await fix_strategy(query, current_context)

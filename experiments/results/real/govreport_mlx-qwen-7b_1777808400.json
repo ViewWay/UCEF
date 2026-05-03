@@ -1,0 +1,203 @@
+{
+  "benchmark": "govreport",
+  "model": "mlx-qwen-7b",
+  "n_samples": 20,
+  "metrics": {
+    "mean_rouge_l": 0.0022918587520926706,
+    "std_rouge_l": 1.940347554912862e-05,
+    "mean_bertscore_f1": 0.09549105560127964,
+    "std_bertscore_f1": 0.006748583084357319,
+    "mean_quality": 0.6113246753246754,
+    "std_quality": 0.00045287261751072923,
+    "mean_n_blocks": 19.65,
+    "std_n_blocks": 2.1277922830953213,
+    "mean_total_tokens": 4644.45,
+    "std_total_tokens": 32.44144725501623,
+    "mean_retrieval_time_ms": 1.2378105602692813,
+    "std_retrieval_time_ms": 0.458483798585513
+  },
+  "per_sample": [
+    {
+      "sample_id": "govreport_0000",
+      "rouge_l": 0.0022615906520919715,
+      "bertscore_f1": 0.0857142857142857,
+      "quality": 0.6114285714285714,
+      "n_blocks": 23,
+      "total_tokens": 4676,
+      "retrieval_time_ms": 0.34270796459168196
+    },
+    {
+      "sample_id": "govreport_0001",
+      "rouge_l": 0.0023273855702094647,
+      "bertscore_f1": 0.1,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4597,
+      "retrieval_time_ms": 0.5300830816850066
+    },
+    {
+      "sample_id": "govreport_0002",
+      "rouge_l": 0.0022979701263883567,
+      "bertscore_f1": 0.1,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4604,
+      "retrieval_time_ms": 0.6193750305101275
+    },
+    {
+      "sample_id": "govreport_0003",
+      "rouge_l": 0.002274450341167551,
+      "bertscore_f1": 0.08695652173913045,
+      "quality": 0.6093506493506493,
+      "n_blocks": 22,
+      "total_tokens": 4680,
+      "retrieval_time_ms": 0.6912919925525784
+    },
+    {
+      "sample_id": "govreport_0004",
+      "rouge_l": 0.002316602316602317,
+      "bertscore_f1": 0.09090909090909091,
+      "quality": 0.6114285714285714,
+      "n_blocks": 21,
+      "total_tokens": 4601,
+      "retrieval_time_ms": 0.7975000189617276
+    },
+    {
+      "sample_id": "govreport_0005",
+      "rouge_l": 0.0022918258212375857,
+      "bertscore_f1": 0.10344827586206896,
+      "quality": 0.6114285714285714,
+      "n_blocks": 17,
+      "total_tokens": 4671,
+      "retrieval_time_ms": 0.9157090680673718
+    },
+    {
+      "sample_id": "govreport_0006",
+      "rouge_l": 0.0022598870056497176,
+      "bertscore_f1": 0.10169491525423728,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4688,
+      "retrieval_time_ms": 1.0407500667497516
+    },
+    {
+      "sample_id": "govreport_0007",
+      "rouge_l": 0.0022935779816513763,
+      "bertscore_f1": 0.08823529411764705,
+      "quality": 0.6114285714285714,
+      "n_blocks": 22,
+      "total_tokens": 4635,
+      "retrieval_time_ms": 1.1372920125722885
+    },
+    {
+      "sample_id": "govreport_0008",
+      "rouge_l": 0.002316602316602317,
+      "bertscore_f1": 0.09090909090909091,
+      "quality": 0.6114285714285714,
+      "n_blocks": 21,
+      "total_tokens": 4601,
+      "retrieval_time_ms": 1.1935830116271973
+    },
+    {
+      "sample_id": "govreport_0009",
+      "rouge_l": 0.0022918258212375857,
+      "bertscore_f1": 0.10344827586206896,
+      "quality": 0.6114285714285714,
+      "n_blocks": 17,
+      "total_tokens": 4671,
+      "retrieval_time_ms": 1.2719170190393925
+    },
+    {
+      "sample_id": "govreport_0010",
+      "rouge_l": 0.00226928895612708,
+      "bertscore_f1": 0.10169491525423728,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4672,
+      "retrieval_time_ms": 1.3814580161124468
+    },
+    {
+      "sample_id": "govreport_0011",
+      "rouge_l": 0.0022935779816513763,
+      "bertscore_f1": 0.08823529411764705,
+      "quality": 0.6114285714285714,
+      "n_blocks": 22,
+      "total_tokens": 4635,
+      "retrieval_time_ms": 1.3787919888272882
+    },
+    {
+      "sample_id": "govreport_0012",
+      "rouge_l": 0.002316602316602317,
+      "bertscore_f1": 0.09090909090909091,
+      "quality": 0.6114285714285714,
+      "n_blocks": 21,
+      "total_tokens": 4601,
+      "retrieval_time_ms": 1.4331670245155692
+    },
+    {
+      "sample_id": "govreport_0013",
+      "rouge_l": 0.0022918258212375857,
+      "bertscore_f1": 0.10344827586206896,
+      "quality": 0.6114285714285714,
+      "n_blocks": 17,
+      "total_tokens": 4671,
+      "retrieval_time_ms": 1.473416923545301
+    },
+    {
+      "sample_id": "govreport_0014",
+      "rouge_l": 0.00226928895612708,
+      "bertscore_f1": 0.10169491525423728,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4672,
+      "retrieval_time_ms": 1.6529170097783208
+    },
+    {
+      "sample_id": "govreport_0015",
+      "rouge_l": 0.0022935779816513763,
+      "bertscore_f1": 0.08823529411764705,
+      "quality": 0.6114285714285714,
+      "n_blocks": 22,
+      "total_tokens": 4635,
+      "retrieval_time_ms": 1.5945419436320662
+    },
+    {
+      "sample_id": "govreport_0016",
+      "rouge_l": 0.002316602316602317,
+      "bertscore_f1": 0.09090909090909091,
+      "quality": 0.6114285714285714,
+      "n_blocks": 21,
+      "total_tokens": 4601,
+      "retrieval_time_ms": 1.6481670318171382
+    },
+    {
+      "sample_id": "govreport_0017",
+      "rouge_l": 0.0022918258212375857,
+      "bertscore_f1": 0.10344827586206896,
+      "quality": 0.6114285714285714,
+      "n_blocks": 17,
+      "total_tokens": 4671,
+      "retrieval_time_ms": 1.786625012755394
+    },
+    {
+      "sample_id": "govreport_0018",
+      "rouge_l": 0.00226928895612708,
+      "bertscore_f1": 0.10169491525423728,
+      "quality": 0.6114285714285714,
+      "n_blocks": 18,
+      "total_tokens": 4672,
+      "retrieval_time_ms": 1.9290000200271606
+    },
+    {
+      "sample_id": "govreport_0019",
+      "rouge_l": 0.0022935779816513763,
+      "bertscore_f1": 0.08823529411764705,
+      "quality": 0.6114285714285714,
+      "n_blocks": 22,
+      "total_tokens": 4635,
+      "retrieval_time_ms": 1.9379169680178165
+    }
+  ],
+  "total_time_s": 0.07,
+  "timestamp": "2026-05-03 19:40:00"
+}

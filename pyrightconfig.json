@@ -1,5 +1,5 @@
 {
-  "extraPaths": [],
+  "extraPaths": ["src"],
   "ignore": ["setup.py"],
   "pythonVersion": "3.12"
 }

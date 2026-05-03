@@ -1,356 +1,243 @@
-# Universal Context Extension Framework (UCEF)
+# UCEF — Universal Context Extension Framework
 
 > **Breaking the Context Barrier**: Model-Agnostic Infinite Context with Quality Preservation
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Paper](https://img.shields.io/badge/Paper-NeurIPS'25-blue.svg)]()
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Version](https://img.shields.io/badge/version-0.3.0-green.svg)]()
 
 ---
 
-## 🎯 Overview
+## Overview
 
-**UCEF** is a universal, model-agnostic framework that enables **any LLM** to handle **unlimited context (4K → 1M+)** while **preserving or improving output quality**.
+UCEF is a universal, model-agnostic framework that enables any LLM to handle unlimited context (4K → 1M+ tokens) while preserving output quality. It combines hyperbolic geometry retrieval, quantum-inspired context selection, adaptive compression, and a three-layer memory architecture into a unified pipeline.
 
-### ✨ Key Features
-
-- 🔓 **Model-Agnostic**: Works with any LLM (OpenAI, Anthropic, GLM, Llama, Qwen, etc.)
-- 🌐 **Full Coverage**: Supports 4K-200K context windows → 1M+ tokens
-- 📐 **Hyperbolic Retrieval**: Topological semantic search with Ω(log n) guarantees
-- ⚛️ **Quantum Selection**: Quantum-inspired context selection mechanism
-- 💾 **3-Layer Memory**: Hot/Warm/Cold architecture for optimal performance
-- 🎛️ **Adaptive Strategy**: Automatically adjusts to model capabilities
-- ✅ **Quality Preservation**: Maintains or improves output quality
+Author: **何红林** (hehonglin525@gmail.com)
 
 ---
 
-## 📊 Performance
+## Key Features
 
-### Context Extension
-
-| Model | Native Context | Extended | Improvement |
-|-------|---------------|----------|-------------|
-| Llama-7B | 4K | 1M+ | **250x** |
-| Qwen-7B | 8K | 1M+ | **125x** |
-| Llama-13B | 32K | 1M+ | **31x** |
-| Llama-70B | 128K | 1M+ | **8x** |
-| GLM-5.1 | 200K | 1M+ | **5x** |
-
-### Quality Preservation
-
-| Model | Baseline | +UCEF | vs GPT-4o |
-|-------|----------|-------|----------|
-| Llama-7B | 65% | 88% (+35%) | **-4%** |
-| Llama-13B | 72% | 91% (+26%) | **-1%** |
-| Llama-70B | 85% | 94% (+11%) | **+2%** |
-| GPT-4o | 92% | 94% (+2%) | **=** |
-
-*Benchmarks: Needle-In-A-Haystack, LongBench, RULER, InfiniteBench*
+- **Model-Agnostic** — Works with OpenAI, Anthropic, Zhipu GLM, local models (llama.cpp, vLLM, Ollama)
+- **Hyperbolic Retrieval** — Poincaré ball embeddings with geodesic nearest-neighbor search (Ω(log n) over hierarchical data)
+- **Quantum-Inspired Selection** — Density matrix formulation for diverse, high-relevance context selection
+- **Three-Layer Memory** — Hot (Redis/OrderedDict) / Warm (ChromaDB/numpy) / Cold (HDF5/JSON/Parquet) with automatic tiering
+- **Adaptive Compression** — Three strategies: MDL (aggressive ~10%), Entropy (moderate ~30%), Task-Aware (light ~50%)
+- **Quality Preservation Engine** — Closed-loop feedback monitoring relevance, completeness, coherence, accuracy
+- **Graceful Degradation** — All external dependencies (Redis, ChromaDB, h5py, Pydantic) optional with pure-Python fallbacks
 
 ---
 
-## 🚀 Quick Start
+## Architecture
+
+```
+Query Input
+    ↓
+┌──────────────────────────────────┐
+│  Model Capability Profiler       │
+│  Detect context window & strategy│
+└──────────────┬───────────────────┘
+               ↓
+┌──────────────────────────────────┐
+│  Multi-Dimensional Retrieval     │
+│  ├─ Hyperbolic (Poincaré ball)   │
+│  ├─ Quantum (density matrix)     │
+│  └─ RRF / Weighted Fusion        │
+└──────────────┬───────────────────┘
+               ↓
+┌──────────────────────────────────┐
+│  Adaptive Compression            │
+│  MDL / Entropy / Task-Aware      │
+└──────────────┬───────────────────┘
+               ↓
+┌──────────────────────────────────┐
+│  Quality Preservation Engine     │
+│  Monitor → Feedback → Refine     │
+└──────────────┬───────────────────┘
+               ↓
+        Any LLM → High-Quality Response
+```
+
+---
+
+## Simulated Experiment Results
+
+All experiments use synthetic hierarchical documents and mock models. See `experiments/simulated_experiment.py`.
+
+| Metric | Result |
+|--------|--------|
+| UCEF quality retention (4K→1M) | **89.5%** (vs RAG 71.0%, LongLLMLingua 79.5%) |
+| Quantum selection improvement | +1.9% accuracy over classical top-k |
+| Aggressive compression retention | ~10% size, ~92.6% quality |
+| Moderate compression retention | ~28% size, ~72.0% quality |
+| Light compression retention | ~50% size, ~69.0% quality |
+| Feedback loop convergence (≤3 iters) | **100%** |
+| Total pipeline latency | **~24ms** (target: <500ms) |
+
+Note: Hyperbolic retrieval with random (untrained) embeddings underperforms TF-IDF, as expected — the hierarchical advantage requires Riemannian SGD training.
+
+---
+
+## Quick Start
 
 ### Installation
 
 ```bash
-pip install ucef
+git clone https://github.com/ViewWay/UCEF.git
+cd extend-Context-System
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
 ```
 
 ### Basic Usage
 
 ```python
-from ucef import UniversalContextSystem
-from transformers import AutoModelForCausalLM
+import asyncio
+from ucef import UniversalContextSystem, UCEFConfig, Document
 
-# Works with any model!
-model = AutoModelForCausalLM.from_pretrained("llama-7b")
+async def main():
+    system = UniversalContextSystem(
+        model_client=your_model_client,
+        model_name="your-model",
+    )
+    await system.initialize()
 
-# Initialize UCEF
-system = UniversalContextSystem(
-    model_client=model,
-    model_name="llama-7b"
-)
+    # Store large documents
+    docs = [Document(id="doc1", text="..."), Document(id="doc2", text="...")]
+    await system.store_documents(docs)
 
-# Store large documents (1M+ tokens)
-await system.store_documents(large_corpus)
+    # Query with automatic context extension
+    result = await system.query("Analyze the project architecture")
+    print(result.format_context())
 
-# Query with automatic quality preservation
-response = await system.query("Analyze the entire project architecture")
-print(response)
-# Output quality comparable to GPT-4o!
-```
-
-### Adaptive Strategy
-
-UCEF automatically detects model capabilities and selects optimal strategy:
-
-```python
-# Small context (4K-32K)
-# → Aggressive compression + Precision retrieval
-
-# Medium context (32K-128K)
-# → Moderate compression + Hyperbolic retrieval
-
-# Large context (128K-200K)
-# → Light compression + Structure preservation
-```
-
----
-
-## 🏗️ Architecture
-
-```
-Query Input
-    ↓
-┌─────────────────────────────────────────┐
-│  Model Capability Profiler             │
-│  - Detect context window               │
-│  - Assess quality retention            │
-│  - Select optimal strategy             │
-└────────────┬────────────────────────────┘
-             ↓
-┌─────────────────────────────────────────┐
-│  Multi-Dimensional Retrieval           │
-│  ├─ Hyperbolic Space (Math)            │
-│  ├─ Quantum Selection (Physics)         │
-│  └─ 3-Layer Memory (CS)                │
-└────────────┬────────────────────────────┘
-             ↓
-┌─────────────────────────────────────────┐
-│  Quality Preservation Engine            │
-│  - Monitor output quality              │
-│  - Refine context selection            │
-│  - Regenerate if needed               │
-└────────────┬────────────────────────────┘
-             ↓
-┌─────────────────────────────────────────┐
-│  Any LLM (4K-200K context)             │
-│  Input: Optimized Context              │
-└────────────┬────────────────────────────┘
-             ↓
-        High-Quality Response
-```
-
----
-
-## 📁 Project Structure
-
-```
-extend-Context-System/
-├── README.md                 # This file
-├── setup.py                  # Package setup
-├── requirements.txt          # Dependencies
-├── LICENSE                   # MIT License
-├── CONTRIBUTING.md           # Contributing guidelines
-│
-├── src/ucef/                # Source code
-│   ├── __init__.py
-│   ├── core/               # Core system
-│   │   ├── system.py       # Main UCEF system
-│   │   └── config.py       # Configuration
-│   ├── memory/             # Memory systems
-│   │   ├── hot.py          # Redis hot memory
-│   │   ├── warm.py         # ChromaDB warm memory
-│   │   └── cold.py         # File system cold memory
-│   ├── retrieval/          # Retrieval methods
-│   │   ├── hyperbolic.py   # Hyperbolic space retrieval
-│   │   ├── quantum.py      # Quantum selection
-│   │   └── adaptive.py     # Adaptive strategy selector
-│   ├── models/             # Model adapters
-│   │   ├── base.py         # Base adapter
-│   │   ├── openai.py       # OpenAI adapter
-│   │   ├── anthropic.py    # Anthropic adapter
-│   │   ├── zhipu.py        # Zhipu GLM adapter
-│   │   └── local.py        # Local model adapter
-│   ├── quality/            # Quality preservation
-│   │   ├── monitor.py      # Quality monitoring
-│   │   ├── profiler.py     # Model capability profiler
-│   │   └── preservation.py # Quality preservation engine
-│   └── utils.py            # Utilities
-│
-├── tests/                   # Tests
-│   ├── unit/               # Unit tests
-│   └── integration/        # Integration tests
-│
-├── paper/                   # Paper materials
-│   ├── draft/              # Paper drafts
-│   ├── figures/            # Figures
-│   └── appendix/           # Supplementary materials
-│
-├── experiments/             # Experiments
-│   ├── benchmarks/         # Benchmark datasets
-│   ├── baselines/          # Baseline implementations
-│   └── results/            # Experiment results
-│
-├── docs/                    # Documentation
-│   ├── api/                # API reference
-│   ├── tutorials/          # Tutorials
-│   └── theory/             # Theoretical background
-│
-├── scripts/                 # Utility scripts
-│   ├── setup/              # Setup scripts
-│   ├── eval/               # Evaluation scripts
-│   └── plot/               # Plotting scripts
-│
-└── examples/                # Usage examples
-```
-
----
-
-## 🔬 Research Contributions
-
-### Theoretical Contributions
-
-1. **Universal Context Extension Framework (UCEF)**
-   - First model-agnostic framework for LLM context extension
-   - Formal mathematical definition with theoretical guarantees
-
-2. **Topological Semantic Retrieval (TSR)**
-   - Hyperbolic space for long-context retrieval
-   - **Theorem**: Ω(log n) efficiency over hierarchical documents
-
-3. **Quantum Context Selection (QCS)**
-   - Formal application of quantum mechanics to context selection
-   - Superposition, collapse, and entanglement mechanisms
-
-### Methodological Contributions
-
-4. **Adaptive Extension Strategy (AES)**
-   - **NEW**: Automatically adjusts to model context window size
-   - Support for 4K-200K → 1M+ full range
-
-5. **Quality Preservation Engine (QPE)**
-   - **NEW**: Maintains or improves output quality
-   - Quality monitoring and feedback loop
-
-6. **Three-Layer Memory Architecture (3LMA)**
-   - Hot/Warm/Cold tiered storage
-   - Theoretical latency guarantees
-
-7. **Adaptive Budget Allocation (ABA)**
-   - Knapsack optimization for context selection
-   - Multi-dimensional scoring
-
----
-
-## 📊 Experiments
-
-### Supported Models (15+)
-
-#### Small Context (4K-8K)
-- Llama-7B (4K)
-- Qwen-7B (8K)
-- Mistral-7B (8K)
-
-#### Medium Context (32K-64K)
-- Llama-13B (32K)
-- Qwen-14B (32K)
-- Yi-34B (64K)
-
-#### Large Context (128K-200K)
-- Llama-3.1-70B (128K)
-- Qwen2.5-72B (128K)
-- GLM-5.1 (200K)
-- Claude 3.5 Sonnet (200K)
-- GPT-4o (128K)
-
-### Benchmarks
-
-- **Needle-In-A-Haystack** (NIAH)
-- **LongBench** (Chinese)
-- **RULER** (Retrieval)
-- **InfiniteBench** (Our proposed 1M+ benchmark)
-
-### Tasks
-
-- Question Answering (single/multi-document)
-- Summarization (long/multi-document)
-- Code Understanding (cross-file)
-- Long Conversations (cross-session)
-
----
-
-## 🛠️ Development
-
-### Setup
-
-```bash
-git clone https://github.com/yourusername/extend-Context-System.git
-cd extend-Context-System
-python -m venv venv
-source venv/bin/activate
-pip install -e ".[dev]"
-```
-
-### Running Tests
-
-```bash
-# Unit tests
-pytest tests/unit/
-
-# Integration tests
-pytest tests/integration/
-
-# Coverage
-pytest --cov=ucef --cov-report=html
+asyncio.run(main())
 ```
 
 ### Running Experiments
 
 ```bash
-# All benchmarks
-python scripts/eval/run_all.py
+# Simulated experiments (no API key needed)
+python experiments/simulated_experiment.py
 
-# Specific benchmark
-python scripts/eval/run_benchmark.py --benchmark needle
+# Real experiments (set API keys first)
+export OPENAI_API_KEY=sk-...
+python experiments/real_experiment.py -b all -m gpt-4o -n 100
+```
 
-# Quality comparison
-python scripts/eval/quality_comparison.py --models llama-7b,gpt-4o
+### Running Tests
+
+```bash
+pytest tests/
 ```
 
 ---
 
-## 📖 Documentation
+## Project Structure
 
-- [API Reference](docs/api/reference.md)
-- [Tutorials](docs/tutorials/)
-- [Theoretical Background](docs/theory/)
-- [Experiment Guide](docs/experiments/)
+```
+extend-Context-System/
+├── src/ucef/                    # Main package
+│   ├── __init__.py              # 22 exported symbols
+│   ├── core/                    # Core system
+│   │   ├── system.py            # UniversalContextSystem orchestrator
+│   │   ├── config.py            # Pydantic v2 configuration (9 classes)
+│   │   └── types.py             # Mathematical types (17 classes, 32 functions)
+│   ├── memory/                  # Three-layer memory
+│   │   ├── hot.py               # Redis / OrderedDict hot layer
+│   │   ├── warm.py              # ChromaDB / numpy warm layer
+│   │   ├── cold.py              # HDF5 / JSON cold layer
+│   │   └── three_layer.py       # Memory orchestrator
+│   ├── retrieval/               # Retrieval methods
+│   │   ├── hyperbolic.py        # Poincaré ball embeddings
+│   │   ├── quantum.py           # Quantum-inspired selection
+│   │   ├── fusion.py            # RRF + weighted fusion
+│   │   └── adaptive.py          # Adaptive context extension
+│   ├── compression/             # Context compression
+│   │   ├── adaptive.py          # Strategy router
+│   │   ├── mdl.py               # MDL principle
+│   │   ├── entropy.py           # Max entropy selection
+│   │   └── task_aware.py        # Query-directed extraction
+│   ├── physics/                 # Physics-inspired models
+│   │   ├── thermodynamic.py     # Free energy minimization
+│   │   └── quantum_field.py     # Renormalization group
+│   ├── quality/                 # Quality preservation
+│   │   ├── profiler.py          # Model capability profiling (12 models)
+│   │   ├── monitor.py           # Real-time quality tracking
+│   │   ├── feedback.py          # Closed-loop feedback
+│   │   └── preservation.py      # Quality engine
+│   └── models/                  # Model adapters (lazy loading)
+│       ├── base.py              # Base adapter
+│       ├── openai.py            # OpenAI adapter
+│       ├── anthropic.py         # Anthropic adapter
+│       ├── zhipu.py             # Zhipu GLM adapter
+│       └── local.py             # Local model adapter
+├── tests/                       # Test suite (8 test modules)
+├── experiments/                 # Simulated + real experiments
+├── paper/                       # Research papers
+│   ├── ieee/                    # IEEE format (EN + CN)
+│   ├── chinese-journal/         # Chinese journal format (EN + CN)
+│   └── appendix/                # Archived drafts
+├── docs/                        # Documentation
+├── setup.py                     # Package setup
+└── requirements.txt             # Dependencies
+```
 
 ---
 
-## 🎯 Target Venue
+## Supported Models
 
-**NeurIPS 2025** / ICLR 2026 / ICML 2026
+| Model | Provider | Context Window |
+|-------|----------|---------------|
+| GPT-4o | OpenAI | 128K |
+| Claude 3.5 Sonnet | Anthropic | 200K |
+| GLM-4 | Zhipu AI | 128K |
+| GLM-4-Long | Zhipu AI | 1M |
+| Llama (local) | llama.cpp / vLLM / Ollama | varies |
+
+The profiler supports 12 pre-configured model profiles covering small (4K–8K), medium (32K–64K), and large (128K+) context windows.
 
 ---
 
-## 📜 License
+## Supported Benchmarks
 
-MIT License - see [LICENSE](LICENSE)
+| Benchmark | Task | Description |
+|-----------|------|-------------|
+| LongBench | Multi-task | Long context QA, summarization, retrieval, classification |
+| NarrativeQA | Document QA | Narrative document question answering |
+| GovReport | Summarization | Government report summarization |
 
 ---
 
-## 📬 Citation
+## Research Contributions
+
+1. **UCEF** — Universal Context Extension Framework, first model-agnostic framework for LLM context extension
+2. **TSR** — Topological Semantic Retrieval via hyperbolic space (Ω(log n) guarantee)
+3. **QCS** — Quantum Context Selection via density matrix formulation
+4. **AES** — Adaptive Extension Strategy for 4K–200K → 1M+
+5. **QPE** — Quality Preservation Engine with closed-loop feedback
+6. **3LMA** — Three-Layer Memory Architecture with tiered latency guarantees
+7. **ABA** — Adaptive Budget Allocation via knapsack optimization
+
+---
+
+## Citation
 
 ```bibtex
-@inproceedings{ucef2025,
-  title={Breaking the Context Barrier: A Model-Agnostic External Memory Framework for Infinite Context LLMs},
-  author={Your Name and Co-authors},
-  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
-  year={2025}
+@article{he2026ucef,
+  title={Breaking the Context Barrier: A Universal Context Extension Framework for LLMs},
+  author={何红林},
+  journal={arXiv preprint},
+  year={2026}
 }
 ```
 
 ---
 
-## 🤝 Contributing
+## License
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
+MIT License
 
 ---
 
-**⭐ Star if helpful!**
-
-Made with ❤️ by the UCEF Team
+**Repository**: https://github.com/ViewWay/UCEF

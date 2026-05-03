@@ -1,0 +1,139 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alodjants et~al.(2024)Alodjants, Avdyushina, Tsarev, Bessmertny, and
+  Khrennikov]{alodjants2024quantum}
+Alexander~P. Alodjants, Anna~E. Avdyushina, Dmitriy~V. Tsarev, Igor~A.
+  Bessmertny, and Andrey~Yu. Khrennikov.
+\newblock Quantum approach for contextual search, retrieval, and ranking of
+  classical information.
+\newblock \emph{Entropy}, 26\penalty0 (10):\penalty0 862, 2024.
+\newblock \doi{10.3390/e26100862}.
+
+\bibitem[Bai et~al.(2024)Bai, Tu, Zhang, Peng, Wang, et~al.]{bai2024longbench}
+Yushi Bai, Shangqing Tu, Jiajie Zhang, Hao Peng, Xiaozhi Wang, et~al.
+\newblock {LongBench}: A bilingual, multitask benchmark for long context
+  understanding.
+\newblock In \emph{Proceedings of the Annual Meeting of the Association for
+  Computational Linguistics (ACL)}, 2024.
+
+\bibitem[Bronstein et~al.(2024)Bronstein, Warmuth,
+  et~al.]{bronstein2024hyplora}
+Aleksandar Bronstein, Manfred K.~K. Warmuth, et~al.
+\newblock {HypLoRA}: Hyperbolic {LoRA} for vision-language models.
+\newblock \emph{arXiv preprint arXiv:2406.08554}, 2024.
+
+\bibitem[Cao et~al.(2025)Cao, Wang, Li, Zhou, and Yang]{cao2025hyperbolicrag}
+Linxiao Cao, Ruitao Wang, Jindong Li, Zhipeng Zhou, and Menglin Yang.
+\newblock {HyperbolicRAG}: Enhancing retrieval-augmented generation with
+  hyperbolic representations.
+\newblock \emph{arXiv preprint arXiv:2511.18808}, 2025.
+
+\bibitem[Grover et~al.(2026)Grover, Zeng, Xia, Faloutsos, and
+  Gordon]{grover2026curvature}
+Karish Grover, Hanqing Zeng, Yinglong Xia, Christos Faloutsos, and Geoffrey~J.
+  Gordon.
+\newblock Text has curvature.
+\newblock \emph{arXiv preprint arXiv:2602.13418}, 2026.
+
+\bibitem[Jiang et~al.(2024)Jiang, Wu, Lin, Yang, Qiu, Shou,
+  et~al.]{jiang2024longllmlingua}
+Huiqiang Jiang, Qianhui Wu, Chin-Yew Lin, Yuqing Yang, Lili Qiu, Lihan Shou,
+  et~al.
+\newblock {LongLLMLingua}: Boosting and compressing long context
+  retrieval-augmented generation via contrastive perplexity pruning.
+\newblock In \emph{Proceedings of the Annual Meeting of the Association for
+  Computational Linguistics (ACL)}, 2024.
+
+\bibitem[Kuznetsov et~al.(2026)Kuznetsov, Ismagilov, and
+  Campos]{kuznetsov2026qisa}
+Nikita Kuznetsov, Niyaz Ismagilov, and Ernesto Campos.
+\newblock Quantum-inspired self-attention in a large language model.
+\newblock \emph{arXiv preprint arXiv:2603.03318}, 2026.
+
+\bibitem[Lewis et~al.(2020)Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal,
+  K\"{u}ttler, Lewis, tau Yih, Rockt\"{a}schel, Riedel, and
+  Kiela]{lewis2020rag}
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
+  Karpukhin, Naman Goyal, Heinrich K\"{u}ttler, Mike Lewis, Wen tau Yih, Tim
+  Rockt\"{a}schel, Sebastian Riedel, and Douwe Kiela.
+\newblock Retrieval-augmented generation for knowledge-intensive {NLP} tasks.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2020.
+
+\bibitem[Li et~al.(2026)Li, Li, Zhou, Ai, and Liu]{li2026ata}
+Xuancheng Li, Haitao Li, Yujia Zhou, Qingyao Ai, and Yiqun Liu.
+\newblock {ATACompressor}: Adaptive task-aware compression for efficient
+  long-context processing in {LLM}s.
+\newblock \emph{arXiv preprint arXiv:2602.03226}, 2026.
+
+\bibitem[Li et~al.(2024)Li, Li, Wu, Yin, Wang, Mao, and Huang]{li2024ragvslc}
+Zhuowan Li, Cheng Li, Zhiyong Wu, Bing Yin, Qifan Wang, Yuning Mao, and Longbo
+  Huang.
+\newblock {Retrieval-Augmented Generation vs.\ Long-Context Language Models: A
+  Comprehensive Evaluation}.
+\newblock \emph{arXiv preprint arXiv:2407.09019}, 2024.
+
+\bibitem[Madhu et~al.(2026)Madhu, Bui, Maatouk, Tassiulas, Krishnaswamy, Yang,
+  Ganguly, Srinivasan, and Ying]{madhu2026hyprag}
+Hiren Madhu, Ngoc Bui, Ali Maatouk, Leandros Tassiulas, Smita Krishnaswamy,
+  Menglin Yang, Sukanta Ganguly, Kiran Srinivasan, and Rex Ying.
+\newblock {HypRAG}: Hyperbolic dense retrieval for retrieval augmented
+  generation.
+\newblock \emph{arXiv preprint arXiv:2602.07739}, 2026.
+
+\bibitem[Nickel and Kiela(2017)]{nickel2017poincare}
+Maximilian Nickel and Douwe Kiela.
+\newblock Poincar\'{e} embeddings for learning hierarchical representations.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, pages 6338--6347, 2017.
+
+\bibitem[Packer et~al.(2024)Packer, Fang, Patil, Lin, Wooders, and
+  Gonzalez]{packer2024memgpt}
+Charles Packer, Vivian Fang, Shishir~G. Patil, Kevin Lin, Sarah Wooders, and
+  Joseph~E. Gonzalez.
+\newblock {MemGPT}: Towards {LLMs} as operating systems.
+\newblock \emph{arXiv preprint arXiv:2310.08560}, 2024.
+
+\bibitem[Patil et~al.(2025)Patil, Zhang, Huang, Ma, and
+  Xu]{patil2025hyperbolicllm}
+Sarang Patil, Zeyong Zhang, Yiran Huang, Tengfei Ma, and Mengjia Xu.
+\newblock Hyperbolic large language models.
+\newblock \emph{arXiv preprint arXiv:2509.05757}, 2025.
+
+\bibitem[Peng et~al.(2024)Peng, Quesnelle, Fan, and Shippole]{peng2024yarn}
+Bowen Peng, Jeffrey Quesnelle, Honglu Fan, and Enrico Shippole.
+\newblock {YaRN}: Efficient context window extension of large language models.
+\newblock In \emph{Proceedings of the International Conference on Learning
+  Representations (ICLR)}, 2024.
+
+\bibitem[Sun et~al.(2024)Sun, Deng, Nie, and Tang]{sun2024lorentz}
+Zhao Sun, Zhiheng Deng, Jianyun Nie, and Jian Tang.
+\newblock Lorentz knowledge graph embeddings for hierarchical reasoning.
+\newblock In \emph{Proceedings of the Annual Meeting of the Association for
+  Computational Linguistics (ACL)}, 2024.
+
+\bibitem[van Rijsbergen(2004)]{vanrijsbergen2004}
+Cornelis~Joost van Rijsbergen.
+\newblock \emph{The Geometry of Information Retrieval}.
+\newblock Cambridge University Press, 2004.
+
+\bibitem[Xiao et~al.(2024)Xiao, Tian, Chen, Han, and
+  Lewis]{xiao2024streamingllm}
+Guangxuan Xiao, Yuandong Tian, Beidi Chen, Song Han, and Mike Lewis.
+\newblock {Efficient Streaming Language Models with Attention Sinks}.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+
+\bibitem[Zuccon et~al.(2009)Zuccon, Azzopardi, and van Rijsbergen]{zuccon2009}
+Guido Zuccon, Leif Azzopardi, and Cornelis~Joost van Rijsbergen.
+\newblock Using quantum theory to compute relevance.
+\newblock In \emph{Proceedings of the International Conference on Theory of
+  Information Retrieval (ICTIR)}, 2009.
+\newblock arXiv:1305.6247.
+
+\end{thebibliography}

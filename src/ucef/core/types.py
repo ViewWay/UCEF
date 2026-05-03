@@ -117,8 +117,8 @@ def mobius_add(u: HyperbolicPoint, v: HyperbolicPoint) -> HyperbolicPoint:
     uv = float(np.dot(u.coordinates, v.coordinates))
 
     denom = 1.0 + 2.0 * uv + u_sq * v_sq
-    if abs(denom) < 1e-10:
-        denom = 1e-10
+    if abs(denom) < 1e-12:
+        denom = 1e-12 if denom >= 0 else -1e-12
 
     numerator = ((1.0 + 2.0 * uv + v_sq) * u.coordinates +
                  (1.0 - u_sq) * v.coordinates)

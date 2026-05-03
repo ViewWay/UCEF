@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import time
 from collections import OrderedDict
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, List, Optional
 
 from ucef.core.config import HotMemoryConfig
 from ucef.core.types import Document
@@ -49,7 +49,7 @@ class RedisHotMemory:
     def _init_redis(self) -> None:
         """Initialize Redis connection. Falls back to in-memory on failure."""
         try:
-            import redis
+            import redis  # type: ignore[import-untyped]
             self._redis_client = redis.from_url(
                 self._config.redis_url,
                 decode_responses=True,

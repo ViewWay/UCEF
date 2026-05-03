@@ -1,0 +1,22 @@
+{
+  "govreport_mlx-qwen-7b": {
+    "benchmark": "govreport",
+    "model": "mlx-qwen-7b",
+    "n_samples": 20,
+    "metrics": {
+      "mean_rouge_l": 0.0022918587520926706,
+      "std_rouge_l": 1.940347554912862e-05,
+      "mean_bertscore_f1": 0.09549105560127964,
+      "std_bertscore_f1": 0.006748583084357319,
+      "mean_quality": 0.6113246753246754,
+      "std_quality": 0.00045287261751072923,
+      "mean_n_blocks": 19.65,
+      "std_n_blocks": 2.1277922830953213,
+      "mean_total_tokens": 4644.45,
+      "std_total_tokens": 32.44144725501623,
+      "mean_retrieval_time_ms": 1.2378105602692813,
+      "std_retrieval_time_ms": 0.458483798585513
+    },
+    "total_time_s": 0.07
+  }
+}

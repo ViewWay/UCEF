@@ -36,6 +36,8 @@ from ucef.core.types import (
     QuantumState,
     TokenBudget,
 )
+from ucef.quality.monitor import QualityMonitor
+from ucef.quality.feedback import QualityFeedbackLoop, FeedbackResult
 
 
 class UniversalContextSystem:
@@ -71,12 +73,15 @@ class UniversalContextSystem:
         self._documents: Dict[str, Document] = {}
         self._model_profile: Optional[ModelProfile] = None
         self._initialized = False
+        self._in_feedback_loop: bool = False
 
         # Subsystem references (lazy-initialized)
         self._profiler = None
         self._retriever = None
         self._quality_engine = None
         self._compression_engine = None
+        self._quality_monitor: Optional[QualityMonitor] = None
+        self._feedback_loop: Optional[QualityFeedbackLoop] = None
 
     # ──────────────────────────────────────────────────────────────────────
     # Initialization
@@ -104,10 +109,22 @@ class UniversalContextSystem:
         # 2. Ensure directories exist
         self._config.ensure_directories()
 
-        # 3. Initialize subsystems (will be connected in Phase 2)
-        # self._retriever = HyperbolicRetriever(self._config.hyperbolic)
-        # self._quality_engine = QualityPreservationEngine(self._config.quality)
-        # self._compression_engine = AdaptiveCompressor(self._config.compression)
+        # 3. Initialize compression engine
+        from ucef.compression.adaptive import AdaptiveCompressor
+        self._compression_engine = AdaptiveCompressor(
+            self._config.compression,
+            model_client=self._model_client,
+        )
+
+        # 4. Initialize quality monitor and feedback loop
+        self._quality_monitor = QualityMonitor(
+            window_size=self._config.quality.monitor_window_size,
+            alert_threshold=self._config.quality.quality_threshold,
+        )
+        self._feedback_loop = QualityFeedbackLoop(
+            max_iterations=self._config.quality.max_refinement_iterations,
+            target_quality=self._config.quality.quality_threshold,
+        )
 
         self._initialized = True
 
@@ -159,9 +176,8 @@ class UniversalContextSystem:
             self._documents[doc.id] = doc
             stored += 1
 
-            # TODO (Phase 2): Embed and distribute to memory layers
-            # await self._embed_document(doc)
-            # await self._distribute_to_memory(doc)
+            # TODO: Embed and distribute to memory layers for production use
+            # Currently documents are stored in-memory for retrieval
 
         return stored
 
@@ -251,7 +267,7 @@ class UniversalContextSystem:
         selected = await self._quantum_select(query, scored, budget)
 
         # 5. Compress if needed to fit budget
-        compressed = await self._compress_to_budget(selected, budget)
+        compressed = await self._compress_to_budget(selected, budget, query=query)
 
         # 6. Evaluate quality
         quality_threshold = quality_threshold or self._config.quality.quality_threshold
@@ -259,6 +275,29 @@ class UniversalContextSystem:
 
         result.retrieval_time_ms = (time.monotonic() - start_time) * 1000
         result.retrieval_strategy = self._model_profile.recommended_strategy.value
+
+        # 7. Record in quality monitor
+        if self._quality_monitor is not None:
+            self._quality_monitor.record(result)
+
+            # 8. Feedback loop: refine if quality below threshold
+            #    Guard against recursive feedback (requery_fn calls query() again)
+            if (
+                result.overall_quality < quality_threshold
+                and self._feedback_loop is not None
+                and not self._in_feedback_loop
+            ):
+                self._in_feedback_loop = True
+                try:
+                    feedback = await self._feedback_loop.refine(
+                        initial_result=result,
+                        requery_fn=self.query,
+                        query=query,
+                        quality_threshold=quality_threshold,
+                    )
+                    result = feedback.final_result
+                finally:
+                    self._in_feedback_loop = False
 
         return result
 
@@ -287,6 +326,34 @@ class UniversalContextSystem:
         # Generate response
         response = await self._model_client.generate(prompt)
         return response
+
+    async def query_with_feedback(
+        self,
+        query: str,
+        **kwargs: Any,
+    ) -> FeedbackResult:
+        """
+        Execute query with explicit feedback loop result.
+
+        Returns FeedbackResult containing the final QueryResult
+        plus refinement iteration details.
+        """
+        result = await self.query(query, **kwargs)
+
+        if self._feedback_loop is None:
+            return FeedbackResult(final_result=result, iterations=0, converged=True)
+
+        return await self._feedback_loop.refine(
+            initial_result=result,
+            requery_fn=self.query,
+            query=query,
+        )
+
+    def get_quality_stats(self) -> Dict[str, Any]:
+        """Get quality monitor statistics."""
+        if self._quality_monitor is None:
+            return {"monitor": "not_initialized"}
+        return self._quality_monitor.get_stats()
 
     # ──────────────────────────────────────────────────────────────────────
     # Internal Pipeline Methods
@@ -449,12 +516,13 @@ class UniversalContextSystem:
         self,
         blocks: List[ContextBlock],
         budget: TokenBudget,
+        query: str = "",
     ) -> List[ContextBlock]:
         """
         Compress context blocks to fit within token budget.
 
-        Phase 1: Simple truncation by relevance ranking.
-        Phase 3: Will use MDL + entropy-based compression.
+        Uses AdaptiveCompressor when available, falls back to simple
+        truncation by relevance ranking.
         """
         total_tokens = sum(b.token_count for b in blocks)
         max_tokens = budget.available_for_retrieval
@@ -462,7 +530,20 @@ class UniversalContextSystem:
         if total_tokens <= max_tokens:
             return blocks
 
-        # Simple truncation: keep blocks by relevance order
+        # Use compression engine if available
+        if self._compression_engine is not None:
+            strategy = self._model_profile.recommended_strategy
+            quality_retention = self._model_profile.quality_retention
+
+            compressed, result = await self._compression_engine.compress(
+                blocks, budget, strategy=strategy,
+                query=query,
+                quality_retention=quality_retention,
+            )
+            if compressed:
+                return compressed
+
+        # Fallback: simple truncation by relevance
         selected = []
         running_total = 0
         for block in sorted(blocks, key=lambda b: b.relevance_score, reverse=True):
@@ -503,8 +584,9 @@ class UniversalContextSystem:
         # Coherence: estimate based on context size and diversity
         coherence = min(len(blocks) / 5.0, 1.0) if blocks else 0.0
 
-        # Accuracy: placeholder (requires fact-checking in Phase 4)
-        accuracy = 0.85
+        # Accuracy: heuristic based on relevance × completeness coverage
+        # Higher coverage of query terms → higher confidence in accuracy
+        accuracy = 0.5 * relevance + 0.3 * completeness + 0.2 * coherence
 
         result = QueryResult(
             query=query,

@@ -1,0 +1,203 @@
+{
+  "benchmark": "longbench",
+  "model": "mlx-qwen-7b",
+  "n_samples": 20,
+  "metrics": {
+    "mean_rouge_l": 0.00340398201669878,
+    "std_rouge_l": 0.0006126777144617505,
+    "mean_bertscore_f1": 0.09814814814814816,
+    "std_bertscore_f1": 0.017665540766980476,
+    "mean_quality": 0.4050000000000001,
+    "std_quality": 5.551115123125783e-17,
+    "mean_n_blocks": 15.0,
+    "std_n_blocks": 0.0,
+    "mean_total_tokens": 2005.0,
+    "std_total_tokens": 0.0,
+    "mean_retrieval_time_ms": 2.1911000018008053,
+    "std_retrieval_time_ms": 1.5365946013827394
+  },
+  "per_sample": [
+    {
+      "sample_id": "longbench_0000",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 0.23304205387830734
+    },
+    {
+      "sample_id": "longbench_0001",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 0.9355840738862753
+    },
+    {
+      "sample_id": "longbench_0002",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.0704159503802657
+    },
+    {
+      "sample_id": "longbench_0003",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 0.9437080007046461
+    },
+    {
+      "sample_id": "longbench_0004",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.0696658864617348
+    },
+    {
+      "sample_id": "longbench_0005",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.2344169663265347
+    },
+    {
+      "sample_id": "longbench_0006",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.260375021956861
+    },
+    {
+      "sample_id": "longbench_0007",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.367792021483183
+    },
+    {
+      "sample_id": "longbench_0008",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 2.4915420217439532
+    },
+    {
+      "sample_id": "longbench_0009",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.4048750745132565
+    },
+    {
+      "sample_id": "longbench_0010",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 3.3657500753179193
+    },
+    {
+      "sample_id": "longbench_0011",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 2.7473749360069633
+    },
+    {
+      "sample_id": "longbench_0012",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 4.218708025291562
+    },
+    {
+      "sample_id": "longbench_0013",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 6.829457939602435
+    },
+    {
+      "sample_id": "longbench_0014",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 3.903792006894946
+    },
+    {
+      "sample_id": "longbench_0015",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 3.457042039372027
+    },
+    {
+      "sample_id": "longbench_0016",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 3.0525829643011093
+    },
+    {
+      "sample_id": "longbench_0017",
+      "rouge_l": 0.0025690430314707774,
+      "bertscore_f1": 0.07407407407407407,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.343292067758739
+    },
+    {
+      "sample_id": "longbench_0018",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.1690419632941484
+    },
+    {
+      "sample_id": "longbench_0019",
+      "rouge_l": 0.0038535645472061657,
+      "bertscore_f1": 0.1111111111111111,
+      "quality": 0.405,
+      "n_blocks": 15,
+      "total_tokens": 2005,
+      "retrieval_time_ms": 1.72354094684124
+    }
+  ],
+  "total_time_s": 79.62,
+  "timestamp": "2026-05-03 19:46:00"
+}

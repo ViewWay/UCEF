@@ -8,8 +8,8 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="ucef",
-    version="0.1.0",
-    author="UCEF Team",
+    version="0.3.0",
+    author="何红林",
     author_email="hehonglin525@gmail.com",
     description="Universal Context Extension Framework for LLMs",
     long_description=long_description,
@@ -25,6 +25,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
     ],
     python_requires=">=3.10",
     install_requires=requirements,

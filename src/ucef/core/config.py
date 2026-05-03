@@ -201,6 +201,8 @@ if _HAS_PYDANTIC:
         use_self_consistency: bool = True
         consistency_samples: int = Field(default=5, ge=1, le=20)
         calibration_method: str = "temperature_scaling"
+        monitor_window_size: int = Field(default=100, ge=10, le=10000)
+        max_refinement_iterations: int = Field(default=3, ge=1, le=10)
 else:
     @dataclass
     class QualityConfig:
@@ -213,6 +215,8 @@ else:
         use_self_consistency: bool = True
         consistency_samples: int = 5
         calibration_method: str = "temperature_scaling"
+        monitor_window_size: int = 100
+        max_refinement_iterations: int = 3
 
 
 # ──────────────────────────────────────────────────────────────────────────────

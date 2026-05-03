@@ -236,7 +236,10 @@ class QuantumSelector:
         intersection = len(words_a & words_b)
         union = len(words_a | words_b)
 
-        return intersection / max(union, 1)
+        if union == 0:
+            return 0.0
+
+        return intersection / union
 
     # ──────────────────────────────────────────────────────────────────────
     # Step 3: Query Measurement
@@ -297,26 +300,27 @@ class QuantumSelector:
         n = len(scored_documents)
         amplitudes = state.amplitudes
 
-        # Compute pairwise similarity phases
-        interference = np.ones(n, dtype=np.float64)
-
+        # Precompute pairwise similarity matrix (vectorized Jaccard)
+        word_sets = [set(doc.text.lower().split()) for doc, _ in scored_documents]
+        sim_matrix = np.zeros((n, n), dtype=np.float64)
         for i in range(n):
-            doc_i, _ = scored_documents[i]
-            for j in range(n):
-                if i == j:
+            for j in range(i + 1, n):
+                if not word_sets[i] or not word_sets[j]:
                     continue
-                doc_j, _ = scored_documents[j]
+                inter = len(word_sets[i] & word_sets[j])
+                union = len(word_sets[i] | word_sets[j])
+                sim = inter / union if union > 0 else 0.0
+                sim_matrix[i, j] = sim
+                sim_matrix[j, i] = sim
 
-                similarity = self._text_similarity(doc_i, doc_j)
+        # Phase matrix: similar docs have constructive interference (phase ≈ 0)
+        phase_matrix = (1.0 - sim_matrix) * np.pi / 2.0
+        np.fill_diagonal(phase_matrix, 0.0)
 
-                # Phase: similar docs have constructive interference (phase ≈ 0)
-                # Dissimilar docs have random phase
-                phase = (1.0 - similarity) * np.pi / 2.0
-
-                # Interference term
-                interference[i] += float(
-                    np.real(amplitudes[i] * np.conj(amplitudes[j]) * np.cos(phase))
-                )
+        # Compute interference: I(i) = Σ_j Re(αᵢ αⱼ* cos(θᵢⱼ))
+        amp_outer = np.outer(amplitudes, np.conj(amplitudes))
+        interference_terms = np.real(amp_outer * np.cos(phase_matrix))
+        interference = 1.0 + np.sum(interference_terms, axis=1) - np.diag(interference_terms)
 
         # Interference modulation: probabilities * |interference|
         modulated = probabilities * np.abs(interference)

@@ -1,0 +1,60 @@
+{
+  "longbench_gpt-4o": {
+    "benchmark": "longbench",
+    "model": "gpt-4o",
+    "n_samples": 10,
+    "metrics": {
+      "mean_rouge_l": 0.0034682080924855496,
+      "std_rouge_l": 0.0005886417077656826,
+      "mean_bertscore_f1": 0.1,
+      "std_bertscore_f1": 0.016972502573910517,
+      "mean_quality": 0.49750000000000016,
+      "std_quality": 1.1102230246251565e-16,
+      "mean_n_blocks": 15.0,
+      "std_n_blocks": 0.0,
+      "mean_total_tokens": 2005.0,
+      "std_total_tokens": 0.0,
+      "mean_retrieval_time_ms": 0.41158339954563417,
+      "std_retrieval_time_ms": 0.14937342962774344
+    },
+    "total_time_s": 0.03
+  },
+  "narrativeqa_gpt-4o": {
+    "benchmark": "narrativeqa",
+    "model": "gpt-4o",
+    "n_samples": 10,
+    "metrics": {
+      "mean_rouge_l": 0.0049850956439656,
+      "std_rouge_l": 0.004471523080168867,
+      "mean_quality": 0.6552402208419599,
+      "std_quality": 0.0061410494324343375,
+      "mean_n_blocks": 38.3,
+      "std_n_blocks": 14.960280746028799,
+      "mean_total_tokens": 6937.6,
+      "std_total_tokens": 2811.2711786663344,
+      "mean_retrieval_time_ms": 0.44544579868670553,
+      "std_retrieval_time_ms": 0.1894770487998782
+    },
+    "total_time_s": 0.05
+  },
+  "govreport_gpt-4o": {
+    "benchmark": "govreport",
+    "model": "gpt-4o",
+    "n_samples": 10,
+    "metrics": {
+      "mean_rouge_l": 0.0010442815816817884,
+      "std_rouge_l": 0.0003579580933257404,
+      "mean_bertscore_f1": 0.061995226231685165,
+      "std_bertscore_f1": 0.006393947946562253,
+      "mean_quality": 0.6562507288629739,
+      "std_quality": 0.00776582076064486,
+      "mean_n_blocks": 47.4,
+      "std_n_blocks": 7.472616676907761,
+      "mean_total_tokens": 10868.8,
+      "std_total_tokens": 2059.639230545,
+      "mean_retrieval_time_ms": 0.8502790005877614,
+      "std_retrieval_time_ms": 0.2801478247131217
+    },
+    "total_time_s": 0.08
+  }
+}

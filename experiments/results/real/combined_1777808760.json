@@ -1,0 +1,22 @@
+{
+  "longbench_mlx-qwen-7b": {
+    "benchmark": "longbench",
+    "model": "mlx-qwen-7b",
+    "n_samples": 20,
+    "metrics": {
+      "mean_rouge_l": 0.00340398201669878,
+      "std_rouge_l": 0.0006126777144617505,
+      "mean_bertscore_f1": 0.09814814814814816,
+      "std_bertscore_f1": 0.017665540766980476,
+      "mean_quality": 0.4050000000000001,
+      "std_quality": 5.551115123125783e-17,
+      "mean_n_blocks": 15.0,
+      "std_n_blocks": 0.0,
+      "mean_total_tokens": 2005.0,
+      "std_total_tokens": 0.0,
+      "mean_retrieval_time_ms": 2.1911000018008053,
+      "std_retrieval_time_ms": 1.5365946013827394
+    },
+    "total_time_s": 79.62
+  }
+}

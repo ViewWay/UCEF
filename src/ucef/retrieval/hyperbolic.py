@@ -215,8 +215,10 @@ class HyperbolicRetriever:
         matrix_norm_sq = np.sum(matrix ** 2, axis=1)  # (n,)
 
         denominator = (1.0 - query_norm_sq) * (1.0 - matrix_norm_sq)  # (n,)
-        # Avoid division by zero for points near boundary
-        denominator = np.clip(denominator, 1e-10, None)
+        # Avoid division by zero / negative for points near boundary
+        # When norms approach 1.0, denominator → 0, causing instability.
+        # Clip to a small positive value proportional to scale.
+        denominator = np.clip(denominator, 1e-5, None)
 
         inner = 1.0 + 2.0 * diff_norm_sq / denominator
         inner = np.clip(inner, 1.0, None)  # arcosh domain: x >= 1

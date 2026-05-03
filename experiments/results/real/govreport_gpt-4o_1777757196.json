@@ -1,0 +1,113 @@
+{
+  "benchmark": "govreport",
+  "model": "gpt-4o",
+  "n_samples": 10,
+  "metrics": {
+    "mean_rouge_l": 0.0010442815816817884,
+    "std_rouge_l": 0.0003579580933257404,
+    "mean_bertscore_f1": 0.061995226231685165,
+    "std_bertscore_f1": 0.006393947946562253,
+    "mean_quality": 0.6562507288629739,
+    "std_quality": 0.00776582076064486,
+    "mean_n_blocks": 47.4,
+    "std_n_blocks": 7.472616676907761,
+    "mean_total_tokens": 10868.8,
+    "std_total_tokens": 2059.639230545,
+    "mean_retrieval_time_ms": 0.8502790005877614,
+    "std_retrieval_time_ms": 0.2801478247131217
+  },
+  "per_sample": [
+    {
+      "sample_id": "govreport_0000",
+      "rouge_l": 0.0021067415730337074,
+      "bertscore_f1": 0.08108108108108109,
+      "quality": 0.6614285714285714,
+      "n_blocks": 25,
+      "total_tokens": 5017,
+      "retrieval_time_ms": 0.31933299760567024
+    },
+    {
+      "sample_id": "govreport_0001",
+      "rouge_l": 0.0009329808738920851,
+      "bertscore_f1": 0.06,
+      "quality": 0.6439358600583088,
+      "n_blocks": 49,
+      "total_tokens": 11427,
+      "retrieval_time_ms": 0.5283329956000671
+    },
+    {
+      "sample_id": "govreport_0002",
+      "rouge_l": 0.0009151921903599756,
+      "bertscore_f1": 0.0588235294117647,
+      "quality": 0.6449714285714284,
+      "n_blocks": 50,
+      "total_tokens": 11579,
+      "retrieval_time_ms": 0.7089580030879006
+    },
+    {
+      "sample_id": "govreport_0003",
+      "rouge_l": 0.001013856032443393,
+      "bertscore_f1": 0.05940594059405941,
+      "quality": 0.6442857142857141,
+      "n_blocks": 50,
+      "total_tokens": 10459,
+      "retrieval_time_ms": 0.7052910004858859
+    },
+    {
+      "sample_id": "govreport_0004",
+      "rouge_l": 0.0009828009828009828,
+      "bertscore_f1": 0.0606060606060606,
+      "quality": 0.6614285714285716,
+      "n_blocks": 50,
+      "total_tokens": 10792,
+      "retrieval_time_ms": 0.7983750037965365
+    },
+    {
+      "sample_id": "govreport_0005",
+      "rouge_l": 0.0008603383997705764,
+      "bertscore_f1": 0.06,
+      "quality": 0.6614285714285716,
+      "n_blocks": 50,
+      "total_tokens": 12401,
+      "retrieval_time_ms": 0.8662079999339767
+    },
+    {
+      "sample_id": "govreport_0006",
+      "rouge_l": 0.0008616975441619991,
+      "bertscore_f1": 0.0588235294117647,
+      "quality": 0.6607428571428573,
+      "n_blocks": 50,
+      "total_tokens": 12309,
+      "retrieval_time_ms": 1.0823330012499355
+    },
+    {
+      "sample_id": "govreport_0007",
+      "rouge_l": 0.0009260688377836087,
+      "bertscore_f1": 0.0606060606060606,
+      "quality": 0.6614285714285716,
+      "n_blocks": 50,
+      "total_tokens": 11511,
+      "retrieval_time_ms": 1.130542004830204
+    },
+    {
+      "sample_id": "govreport_0008",
+      "rouge_l": 0.0009828009828009828,
+      "bertscore_f1": 0.0606060606060606,
+      "quality": 0.6614285714285716,
+      "n_blocks": 50,
+      "total_tokens": 10792,
+      "retrieval_time_ms": 1.141417000326328
+    },
+    {
+      "sample_id": "govreport_0009",
+      "rouge_l": 0.0008603383997705764,
+      "bertscore_f1": 0.06,
+      "quality": 0.6614285714285716,
+      "n_blocks": 50,
+      "total_tokens": 12401,
+      "retrieval_time_ms": 1.2219999989611097
+    }
+  ],
+  "total_time_s": 0.08,
+  "timestamp": "2026-05-02 21:26:36"
+}
